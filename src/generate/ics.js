@@ -109,4 +109,10 @@ function buildIcs(events, slug, label) {
 }
 
 export async function writeIcsFile({ slug, label, events }) {
-  const content 
+  const content = await buildIcs(events, slug, label);
+  const file = icsFile(slug);
+  await mkdir(dirname(file), { recursive: true });
+  await writeFile(file, content);
+  console.log(`[ics] wrote ${slug}.ics — ${events.length} events`);
+  return file;
+}
