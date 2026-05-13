@@ -3,10 +3,6 @@ import { writeFile, mkdir } from 'node:fs/promises';
 import { dirname } from 'node:path';
 import { icsFile } from '../lib/paths.js';
 
-function escapeText(value = '') {
-  return String(value).replace(/\n/g, '\\n');
-}
-
 function buildEarningsEvent(entry) {
   const [y, m, d] = entry.date.split('-').map(Number);
   const timeSuffix = entry.time ? ` (${entry.time})` : '';
@@ -28,7 +24,7 @@ function buildEarningsEvent(entry) {
     'Move your scattered records into one place and see the whole picture at a glance.',
   ]
     .filter((line) => line !== null)
-    .join('\\n');
+    .join('\n');
 
   return {
     title: `${entry.symbol} ${entry.companyName}${timeSuffix} earnings`,
@@ -56,8 +52,7 @@ function buildGenericEvent(entry) {
     entry.source ? `Source: ${entry.source}` : null,
   ]
     .filter(Boolean)
-    .map(escapeText)
-    .join('\\n\\n');
+    .join('\n\n');
 
   return {
     title: entry.title,
@@ -76,6 +71,7 @@ function buildGenericEvent(entry) {
     uid: entry.uid,
   };
 }
+
 function buildEvent(entry) {
   if (entry.date && entry.symbol && entry.companyName) {
     return buildEarningsEvent(entry);
@@ -97,7 +93,10 @@ function buildIcs(events, slug, label) {
         calName: `${label} Earnings Calendar`,
         method: 'PUBLISH',
       },
-      (err, value) => (err ? reject(err) : resolve(value)),
+      (err, value) => {
+        if (err) reject(err);
+        else resolve(value);
+      },
     );
   });
 }
