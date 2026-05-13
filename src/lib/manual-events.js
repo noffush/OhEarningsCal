@@ -18,6 +18,8 @@ export async function loadManualEvents() {
     const raw = await readFile(filePath, 'utf8');
     const events = JSON.parse(raw);
 
+    console.log('[manual-events] loaded raw events:', events);
+    
     return events
       .map((event) => {
         const start = event.start;
