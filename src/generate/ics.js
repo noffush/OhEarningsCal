@@ -49,7 +49,6 @@ function buildEarningsEvent(entry) {
 
 function buildGenericEvent(entry) {
   const [startY, startM, startD] = entry.start.split('-').map(Number);
-  const [endY, endM, endD] = (entry.end || entry.start).split('-').map(Number);
 
   const description = [
     entry.description || null,
@@ -64,11 +63,7 @@ function buildGenericEvent(entry) {
     title: entry.title,
     description,
     start: [startY, startM, startD],
-    end: [endY, endM, endD],
     startInputType: 'utc',
-    startOutputType: 'utc',
-    endInputType: 'utc',
-    endOutputType: 'utc',
     status: 'CONFIRMED',
     busyStatus: 'FREE',
     alarms: [
@@ -81,7 +76,6 @@ function buildGenericEvent(entry) {
     uid: entry.uid,
   };
 }
-
 function buildEvent(entry) {
   if (entry.date && entry.symbol && entry.companyName) {
     return buildEarningsEvent(entry);
