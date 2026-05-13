@@ -3,7 +3,11 @@ import { writeFile, mkdir } from 'node:fs/promises';
 import { dirname } from 'node:path';
 import { icsFile } from '../lib/paths.js';
 
-function buildEvent(entry) {
+function escapeText(value = '') {
+  return String(value).replace(/\n/g, '\\n');
+}
+
+function buildEarningsEvent(entry) {
   const [y, m, d] = entry.date.split('-').map(Number);
   const timeSuffix = entry.time ? ` (${entry.time})` : '';
 
@@ -22,7 +26,9 @@ function buildEvent(entry) {
     '— — —',
     'Earnings calendar by Beavern · https://beavern.com',
     'Move your scattered records into one place and see the whole picture at a glance.',
-  ].filter((line) => line !== null).join('\n');
+  ]
+    .filter((line) => line !== null)
+    .join('\\n');
 
   return {
     title: `${entry.symbol} ${entry.companyName}${timeSuffix} earnings`,
@@ -32,9 +38,60 @@ function buildEvent(entry) {
     status: 'CONFIRMED',
     busyStatus: 'FREE',
     alarms: [
-      { action: 'display', description: 'Earnings reminder', trigger: { hours: 2, minutes: 0, before: true } },
+      {
+        action: 'display',
+        description: 'Earnings reminder',
+        trigger: { hours: 2, minutes: 0, before: true },
+      },
     ],
   };
+}
+
+function buildGenericEvent(entry) {
+  const [startY, startM, startD] = entry.start.split('-').map(Number);
+  const [endY, endM, endD] = (entry.end || entry.start).split('-').map(Number);
+
+  const description = [
+    entry.description || null,
+    entry.location ? `Location: ${entry.location}` : null,
+    entry.source ? `Source: ${entry.source}` : null,
+  ]
+    .filter(Boolean)
+    .map(escapeText)
+    .join('\\n\\n');
+
+  return {
+    title: entry.title,
+    description,
+    start: [startY, startM, startD],
+    end: [endY, endM, endD],
+    startInputType: 'utc',
+    startOutputType: 'utc',
+    endInputType: 'utc',
+    endOutputType: 'utc',
+    status: 'CONFIRMED',
+    busyStatus: 'FREE',
+    alarms: [
+      {
+        action: 'display',
+        description: `${entry.title} reminder`,
+        trigger: { hours: 12, minutes: 0, before: true },
+      },
+    ],
+    uid: entry.uid,
+  };
+}
+
+function buildEvent(entry) {
+  if (entry.date && entry.symbol && entry.companyName) {
+    return buildEarningsEvent(entry);
+  }
+
+  if (entry.title && entry.start) {
+    return buildGenericEvent(entry);
+  }
+
+  throw new Error(`Unsupported event shape: ${JSON.stringify(entry)}`);
 }
 
 function buildIcs(events, slug, label) {
@@ -52,10 +109,4 @@ function buildIcs(events, slug, label) {
 }
 
 export async function writeIcsFile({ slug, label, events }) {
-  const content = await buildIcs(events, slug, label);
-  const file = icsFile(slug);
-  await mkdir(dirname(file), { recursive: true });
-  await writeFile(file, content);
-  console.log(`[ics] wrote ${slug}.ics — ${events.length} events`);
-  return file;
-}
+  const content 
