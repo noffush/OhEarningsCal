@@ -67,6 +67,8 @@ async function buildMergedCustomEvents(watchlist) {
     }),
   ]);
 
+  console.log('[gen] manual events loaded:', manualEvents);
+  
   const merged = dedupeByKey([
     ...earningsEvents,
     ...cpiEvents,
