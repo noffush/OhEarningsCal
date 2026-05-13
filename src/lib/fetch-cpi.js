@@ -1,5 +1,3 @@
-// src/lib/fetch-cpi.js
-
 const BLS_ICS_URL = 'https://www.bls.gov/schedule/news_release/bls.ics';
 
 function unescapeIcsText(value = '') {
@@ -115,7 +113,7 @@ function normalizeBlsEvent(event) {
   };
 }
 
-async function fetchCpiEvents() {
+export async function fetchCpiEvents() {
   const response = await fetch(BLS_ICS_URL, {
     headers: {
       'user-agent': 'OhEarningsCal/merged-calendar',
@@ -141,7 +139,4 @@ async function fetchCpiEvents() {
     .sort((a, b) => a.start.localeCompare(b.start));
 }
 
-module.exports = {
-  BLS_ICS_URL,
-  fetchCpiEvents,
-};
+export { BLS_ICS_URL };
