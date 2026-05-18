@@ -1,32 +1,62 @@
 [
   {
-    "title": "FOMC Rate Decision",
+    "title": "🇺🇸 FOMC Rate Decision",
     "start": "2026-06-17",
     "allDay": true,
     "description": "Federal Reserve scheduled meeting"
   },
   {
-    "title": "FOMC Rate Decision",
+    "title": "🇺🇸 FOMC Rate Decision",
     "start": "2026-07-29",
     "allDay": true,
     "description": "Federal Reserve scheduled meeting"
   },
   {
-    "title": "FOMC Rate Decision",
+    "title": "🇺🇸 FOMC Rate Decision",
     "start": "2026-09-16",
     "allDay": true,
     "description": "Federal Reserve scheduled meeting"
   },
   {
-    "title": "FOMC Rate Decision",
+    "title": "🇺🇸 FOMC Rate Decision",
     "start": "2026-10-28",
     "allDay": true,
     "description": "Federal Reserve scheduled meeting"
   },
   {
-    "title": "FOMC Rate Decision",
+    "title": "🇺🇸 FOMC Rate Decision",
     "start": "2026-12-09",
     "allDay": true,
     "description": "Federal Reserve scheduled meeting"
+  },
+  {
+    "title": "🇮🇱 Bank of Israel Rate Decision",
+    "start": "2026-05-25",
+    "allDay": true,
+    "description": "Bank of Israel interest rate announcement"
+  },
+  {
+    "title": "🇮🇱 Bank of Israel Rate Decision",
+    "start": "2026-07-06",
+    "allDay": true,
+    "description": "Bank of Israel interest rate announcement"
+  },
+  {
+    "title": "🇮🇱 Bank of Israel Rate Decision",
+    "start": "2026-08-31",
+    "allDay": true,
+    "description": "Bank of Israel interest rate announcement"
+  },
+  {
+    "title": "🇮🇱 Bank of Israel Rate Decision",
+    "start": "2026-10-21",
+    "allDay": true,
+    "description": "Bank of Israel interest rate announcement"
+  },
+  {
+    "title": "🇮🇱 Bank of Israel Rate Decision",
+    "start": "2026-11-23",
+    "allDay": true,
+    "description": "Bank of Israel interest rate announcement"
   }
 ]
